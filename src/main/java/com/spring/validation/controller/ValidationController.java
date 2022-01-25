@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,17 +37,15 @@ public class ValidationController {
     @PostMapping("/join")
     public String join(@ModelAttribute User user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-        if(!StringUtils.hasText(user.getName())){
-//            bindingResult.addError(new FieldError("user","name",user.getName(),false,null,null,"이름을 입력해주세"));
-            bindingResult.addError(new FieldError("user","name", user.getName(),false,new String[]{"required.user.name"},null,null));
-        }
+        ValidationUtils.rejectIfEmpty(bindingResult,"name","required");
+//        if(!StringUtils.hasText(user.getName())){
+//            bindingResult.rejectValue("name","required");
+//        }
         if (user.getAge()==null || user.getAge() < 0) {
-//            bindingResult.addError(new FieldError("user","age",user.getAge(),false,null,null,"나이는 정수여야합니다."));
-            bindingResult.addError(new FieldError("user","age",user.getAge(),false,new String[]{"number.user.age"},new Object[]{0,100},null));
+            bindingResult.rejectValue("age","number",new Object[]{0,100},null);
         }
         if ( user.getEmail()==null ||!user.getEmail().contains("@")) {
-//            bindingResult.addError(new FieldError("user","name",user.getEmail(),false,null,null,"이메일은 @ 를 포함해야 합니다."));
-            bindingResult.addError(new FieldError("user","email",user.getEmail(),false,new String[]{"check.user.email"},null,null));
+            bindingResult.rejectValue("email","check");
         }
 
         if (bindingResult.hasErrors()) {
