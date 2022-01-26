@@ -39,4 +39,11 @@ public class UserJoinRepository {
     public ArrayList<User> getAllUsers() {
         return  new ArrayList<User>(userList.values());
     }
+
+    public void changeUser(SaveUserForm saveUserForm) {
+        User changeUser =findById(saveUserForm.getId());
+        changeUser.setName(saveUserForm.getName());
+        changeUser.setEmail(saveUserForm.getEmail());
+
+    }
 }

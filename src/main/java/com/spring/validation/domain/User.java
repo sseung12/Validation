@@ -6,7 +6,14 @@ import org.hibernate.validator.constraints.Range;
 import javax.validation.constraints.*;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
+
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
 
     private Long id;
 

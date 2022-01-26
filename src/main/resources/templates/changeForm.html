@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -41,7 +41,7 @@
 </head>
 <body>
 <div class="main-wrapper">
-    <form action="/change" method="post" th:action th:object="${user}">
+    <form th:action="@{/change/{id}(id=${user.id})}" method="post"  th:object="${user}">
 
         <h1 > 수정</h1>
         <div class="input-wrapper">

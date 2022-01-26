@@ -1,5 +1,6 @@
 package com.spring.validation.controller;
 
+import com.spring.validation.domain.SaveUserForm;
 import com.spring.validation.domain.User;
 import com.spring.validation.domain.UserJoinRepository;
 import lombok.Getter;
@@ -39,7 +40,7 @@ public class ValidationController {
 
     @GetMapping("/main")
     public String main(Model model) {
-        model.addAttribute("user",userJoinRepository.getAllUsers());
+        model.addAttribute("users", userJoinRepository.getAllUsers());
         return "main";
     }
 
@@ -55,15 +56,26 @@ public class ValidationController {
         userJoinRepository.saveUser(user);
 
 
-        return "/main";
+        return "redirect:/main";
     }
-
 
 
     @GetMapping("/change/{id}")
     public String change_Info(User user, Model model, @PathVariable Long id) {
-        model.addAttribute("user",userJoinRepository.findById(id));
+        model.addAttribute("user", userJoinRepository.findById(id));
 
         return "changeForm";
+    }
+
+    @PostMapping("/change/{id}")
+    public String change_user(@Validated @ModelAttribute("user") SaveUserForm saveUserForm, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            log.info("errors = {}",bindingResult);
+            return "changeForm";
+        }
+        userJoinRepository.changeUser(saveUserForm);
+
+        return "redirect:/main";
     }
 }
