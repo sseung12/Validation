@@ -1,19 +1,25 @@
 package com.spring.validation.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.validator.constraints.Range;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+import javax.validation.constraints.*;
+
+@Data
 public class User {
 
     private Long id;
+
+    @NotEmpty
     private String name;
+
+    @NotNull(message = "필수입니다.")
+    @Range(min = 1,max = 100)
     private Integer age;
+
+
+    @NotEmpty
+    @Email
     private String email;
 
 }
