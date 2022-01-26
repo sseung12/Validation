@@ -4,6 +4,7 @@ import com.spring.validation.domain.User;
 import com.spring.validation.exception.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +33,17 @@ public class UserJoinRepository {
 
             return userList.get(id);
         }
+
+    }
+
+    public ArrayList<User> getAllUsers() {
+        return  new ArrayList<User>(userList.values());
+    }
+
+    public void changeUser(SaveUserForm saveUserForm) {
+        User changeUser =findById(saveUserForm.getId());
+        changeUser.setName(saveUserForm.getName());
+        changeUser.setEmail(saveUserForm.getEmail());
 
     }
 }
